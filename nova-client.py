@@ -2,9 +2,9 @@
 
 import os
 from argparse import Namespace
-from keystoneauth1 import loading
-from novaclient import client
-from novaclient import api_versions
+from keystoneclient import session as ksession
+import novaclient
+import novaclient.shell
 
 
 def read_adminopenrc(path=None):
@@ -39,6 +39,7 @@ else:
 args.help=False
 args.insecure=False
 args.os_auth_system=''
+args.os_auth_token=''
 args.os_auth_type='password'
 if 'OS_AUTH_URL' in env:
     args.os_auth_url=env['OS_AUTH_URL']
@@ -96,11 +97,11 @@ args.timeout=600
 args.timings=False
 args.volume_service_name=''
 
-keystone_session = (loading.load_session_from_argparse_arguments(args))
-keystone_auth = (loading.load_auth_from_argparse_arguments(args))
+keystone_session = ksession.Session.load_from_cli_options(args)
+keystone_auth = novaclient.shell.OpenStackComputeShell()._get_keystone_auth(keystone_session, args.os_auth_url, username=args.os_username, user_id=args.os_user_id, user_domain_id=args.os_user_domain_id, user_domain_name=args.os_user_domain_name, password=args.os_password, auth_token=args.os_auth_token, project_id=args.os_project_id, project_name=args.os_project_name, project_domain_id=args.os_project_domain_id, project_domain_name=args.os_project_domain_name)
 
 
-cs = client.Client(api_versions.APIVersion("2.0"), env['OS_USERNAME'],
+cs = novaclient.client.Client("2", env['OS_USERNAME'],
                    env['OS_PASSWORD'], env['OS_PROJECT_NAME'], tenant_id='',
                    user_id=None, auth_url=env['OS_AUTH_URL'], insecure=False,
                    region_name='', endpoint_type=env['OS_ENDPOINT_TYPE'],
@@ -109,6 +110,7 @@ cs = client.Client(api_versions.APIVersion("2.0"), env['OS_USERNAME'],
                    volume_service_name='', timings=False, bypass_url='',
                    os_cache=False, http_log_debug=False, cacert=None,
                    timeout=600, session=keystone_session, auth=keystone_auth)
+
 
 cs.servers.list()
 cs.flavors.list()
