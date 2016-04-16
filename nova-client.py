@@ -113,4 +113,6 @@ cs = novaclient.client.Client("2", env['OS_USERNAME'],
 
 
 cs.servers.list()
+# cs.servers.list(search_opts={'all_tenants': 1})
+
 cs.flavors.list()
