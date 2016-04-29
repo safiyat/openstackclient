@@ -15,6 +15,7 @@ def keystone_example():
                                        os_project_name=args.os_project_name)
     print kclient.projects.list()
 
+
 def nova_example():
     p = get_parser()
     args = p.parse_args()
@@ -25,6 +26,7 @@ def nova_example():
     sess = keystoneutils.get_session(auth)
     nc = client.Client(version=args.os_compute_api_version, session=sess)
     print nc.servers.list(search_opts={'all_tenants': 1})
+
 
 def main():
     keystone_example()

@@ -9,7 +9,8 @@ def get_auth(os_auth_url, os_password, os_username, os_project_name,
 
        :param string os_auth_url: Auth URL to use for OpenStack service access.
        :param string os_password: Password to use for OpenStack service access.
-       :param string os_username: User name to use for OpenStack service access.
+       :param string os_username: User name to use for OpenStack service
+                                  access.
        :param string os_project_name: Project name to use for OpenStack service
                                       access.
        :param string os_user_domain_id: User Domain ID to use for OpenStack
@@ -43,7 +44,8 @@ def get_client(os_auth_url, os_password, os_username, os_project_name):
 
        :param string os_auth_url: Auth URL to use for OpenStack service access.
        :param string os_password: Password to use for OpenStack service access.
-       :param string os_username: User name to use for OpenStack service access.
+       :param string os_username: User name to use for OpenStack service
+                                  access.
        :param string os_project_name: Project name to use for OpenStack service
                                       access.
     """
