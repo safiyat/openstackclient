@@ -133,14 +133,8 @@ def get_osvars(args=None, **kwargs):
             osvars['os_project_name'] = kwargs['os_project_name']
         else:
             raise Exception('Key "os_project_name" not found!!!')
-        if 'os_user_domain_id' in kwargs:
-            osvars['os_user_domain_id'] = kwargs['os_user_domain_id']
-        else:
-            osvars['os_user_domain_id'] = 'default'
-        if 'os_project_domain_id' in kwargs:
-            osvars['os_project_domain_id'] = kwargs['os_project_domain_id']
-        else:
-            osvars['os_project_domain_id'] = 'default'
+        osvars['os_user_domain_id'] = kwargs.get('os_user_domain_id', 'default')
+        osvars['os_project_domain_id'] = kwargs.get('os_project_domain_id', 'default')
     return osvars
 
 
