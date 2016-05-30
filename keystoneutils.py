@@ -1,11 +1,7 @@
-import sys
-try:
-    from keystoneclient.auth.identity import v3
-    from keystoneclient import session as ksession
-    from keystoneclient.v3 import client
-except ImportError:
-    from keystoneauth1 import loading
-from utils import get_osvars, dict_to_args
+from keystoneclient.auth.identity import v3
+from keystoneclient import session as ksession
+from keystoneclient.v3 import client
+from utils import get_osvars
 
 
 def get_auth(args=None, **kwargs):
@@ -30,15 +26,12 @@ def get_auth(args=None, **kwargs):
     """
     v = get_osvars(args, **kwargs)
 
-    if 'keystoneauth1' in sys.modules:
-        auth = loading.load_auth_from_argparse_arguments(dict_to_args(v))
-    else:
-        auth = v3.Password(auth_url=v['os_auth_url'],
-                           password=v['os_password'],
-                           username=v['os_username'],
-                           user_domain_id=v['os_user_domain_id'],
-                           project_name=v['os_project_name'],
-                           project_domain_id=v['os_project_domain_id'])
+    auth = v3.Password(auth_url=v['os_auth_url'],
+                       password=v['os_password'],
+                       username=v['os_username'],
+                       user_domain_id=v['os_user_domain_id'],
+                       project_name=v['os_project_name'],
+                       project_domain_id=v['os_project_domain_id'])
     return auth
 
 
@@ -63,15 +56,10 @@ def get_session(args=None, **kwargs):
        :param string os_project_name: Project name to use for OpenStack service
                                       access.
     """
-    if 'keystoneauth1' in sys.modules:
-        v = get_osvars(args, **kwargs)
-        args = dict_to_args(v)
-        session = loading.load_session_from_argparse_arguments(args)
+    if 'os_auth' in kwargs:
+        os_auth = kwargs['os_auth']
     else:
-        if 'os_auth' in kwargs:
-            os_auth = kwargs['os_auth']
-        else:
-            os_auth = get_auth(args, **kwargs)
+        os_auth = get_auth(args, **kwargs)
         session = ksession.Session(auth=os_auth)
     return session
 

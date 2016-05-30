@@ -5,7 +5,9 @@ import argparse
 
 
 def read_adminopenrc(path=None):
-    """Read the OpenStack environment variables from the specified path."""
+    """
+    Read the OpenStack environment variables from the specified path.
+    """
     if path is not None:
         if os.path.isdir(path):
             admin_openrc_path = os.path.join(path, 'admin-openrc.sh')
@@ -28,7 +30,9 @@ def read_adminopenrc(path=None):
 
 
 def get_parser():
-    '''Creates a parser to parse the OpenStack arguments'''
+    """
+    Creates a parser to parse the OpenStack arguments
+    """
     p = argparse.ArgumentParser()
     p.add_argument('--os-username',
                    default=os.environ.get('OS_USERNAME'),
@@ -95,7 +99,9 @@ def get_parser():
 
 
 def get_osvars(args=None, **kwargs):
-    """Extract OpenStack variables from args or kwargs."""
+    """
+    Extract OpenStack variables from args or kwargs.
+    """
     osvars = {}
     if args:
         osvars['os_auth_url'] = args.os_auth_url
@@ -139,6 +145,9 @@ def get_osvars(args=None, **kwargs):
 
 
 def dict_to_args(d):
+    """
+    Convert a dictionary to and argparse.Namespace object.
+    """
     args = argparse.Namespace()
     for key in d.keys():
         setattr(args, key, d[key])
@@ -146,6 +155,9 @@ def dict_to_args(d):
 
 
 def tuple2dict(keys, tuple):
+    """
+    Convert a tuple to a dictionary with the keys as keys.
+    """
     d = {}
     for key, value in zip(keys, tuple):
         d[key] = value
@@ -153,6 +165,10 @@ def tuple2dict(keys, tuple):
 
 
 def get(list_of_dict, key, value):
+    """
+    Retrieve dictionaries matching the key-value pair from a list of
+    dictionaries.
+    """
     o = filter(lambda dictionary: dictionary.__dict__[key] == value,
                list_of_dict)
     return o
