@@ -6,3 +6,7 @@ python-glanceclient==2.0.0
 python-openstackclient==2.2.0
 python-quantumclient==2.2.4.3
 python-swiftclient==2.7.0
+oslo.config==3.10.0
+oslo.i18n==3.6.0
+oslo.serialization==2.7.0
+oslo.utils==3.11.0
